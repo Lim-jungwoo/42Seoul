@@ -1,0 +1,5 @@
+a.out
+leaks_report.txt
+main.c
+test.c
+.DS_Store

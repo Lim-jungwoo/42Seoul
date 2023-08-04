@@ -1,0 +1,87 @@
+version: '3.0'
+
+services:
+  mariadb:
+    build: /home/jlim/Inception/srcs/requirements/mariadb/
+    container_name: mariadb
+    environment:
+      - HOST_NAME=${HOST_NAME}
+      - HOST_IPV4=${HOST_IPV4}
+      - HOST_IPV6=${HOST_IPV6}
+      - MARIADB_DB=${MARIADB_DB}
+      - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PWD=${MARIADB_PWD}
+      - MARIADB_ADMIN_USER=${MARIADB_ADMIN_USER}
+      - MARIADB_ADMIN_PWD=${MARIADB_ADMIN_PWD}
+    image: mariadb
+    networks:
+      - network-mariadb
+    restart: always
+    volumes:
+      - volume-mariadb:/var/lib/mysql
+  
+  wordpress:
+    build: /home/jlim/Inception/srcs/requirements/wordpress/
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    environment:
+      - WP_URL=${WP_URL}
+      - WP_TITLE=${WP_TITLE}
+      - WP_ADMIN_USER=${WP_ADMIN_USER}
+      - WP_ADMIN_PWD=${WP_ADMIN_PWD}
+      - WP_ADMIN_EMAIL=${WP_ADMIN_EMAIL}
+      - WP_USER=${WP_USER}
+      - WP_USER_PWD=${WP_USER_PWD}
+      - WP_USER_EMAIL=${WP_USER_EMAIL}
+      - MARIADB_HOST=${MARIADB_HOST}
+      - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PWD=${MARIADB_PWD}
+      - MARIADB_DB=${MARIADB_DB}
+    image: wordpress
+    networks:
+      - network-mariadb
+      - network-nginx
+    restart: always
+    volumes:
+      - volume-wordpress:/var/www/wordpress
+  
+  nginx:
+    build: /home/jlim/Inception/srcs/requirements/nginx/
+    container_name: nginx
+    depends_on:
+      - wordpress
+    image: nginx
+    networks:
+      - network-nginx
+    ports:
+      - '443:443'
+    restart: always
+    volumes:
+      - volume-wordpress:/var/www/wordpress
+
+networks:
+  network-mariadb:
+    driver: bridge
+    name: network-mariadb
+  
+  network-nginx:
+    driver: bridge
+    name: network-nginx
+
+volumes:
+  volume-mariadb:
+    driver: local
+    driver_opts:
+      device: ${VOLPATH}/mariadb
+      o: bind
+      type: volume
+    name: volume-mariadb
+  
+  volume-wordpress:
+    driver: local
+    driver_opts:
+      device: ${VOLPATH}/wordpress
+      o: bind
+      type: volume
+    name: volume-wordpress

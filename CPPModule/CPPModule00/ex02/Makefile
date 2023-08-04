@@ -1,0 +1,34 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jlim <jlim@student.42seoul.kr>             +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/01/23 22:41:55 by jlim              #+#    #+#              #
+#    Updated: 2022/01/23 22:42:05 by jlim             ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+NAME = Account
+
+SRCS = ./tests.cpp ./Account.cpp
+OBJS = $(SRCS:.cpp=.o)
+
+CXX = clang++
+CXXFLAGS = -Wall -Wextra -Werror
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $(NAME) $(OBJS)
+
+clean:
+	rm -f $(OBJS)
+
+fclean: clean
+	rm -f $(NAME)
+
+re: fclean all
+
+.PHONY: all clean fclean re

@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// generator nestjsDto {
+//   provider                        = "prisma-generator-nestjs-dto"
+//   output                          = "../src"
+//   outputToNestJsResourceStructure = "true"
+// }
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Block {
+  bid Int @id @default(autoincrement())
+  uid Int 
+  tid Int
+}
+
+model User {
+  id           Int     @id //pk
+  email        String  @unique
+  username     String  @unique
+  nickname     String  @unique
+  avatar       String? @db.Text
+  ladderrating String  @default("Bronze")
+  ladderscore  Int     @default(0)
+
+  lasttokentime DateTime?
+
+  tfa     Boolean   @default(false)
+  tfacode String?
+  tfatime DateTime?
+
+  rtoken String?
+
+  historys History[]
+  status   String    @default("offline")
+
+  friends User[] @relation("friends")
+
+  friendsrelation User[] @relation("friends")
+
+  friendsrequests FriendRequest[]
+}
+
+model History {
+  myid         Int
+  yourid       Int
+  yournickname String
+  result       String
+  myscore      Int
+  yourscore    Int
+  scoreresult  String
+  type         String
+  maptype      String
+
+  historypk Int @id @default(autoincrement())
+  user      User   @relation(fields: [myid], references: [id])
+}
+
+model FriendRequest {
+  requestpk  Int    @id @default(autoincrement()) //pk
+  myid       Int
+  friendid   Int
+  friendname String
+  friend     User[]
+}
+
+enum LadderRating {
+  Bronze
+  Silver
+  Gold
+}
+
+enum HistoryType {
+  normal
+  ladder
+}

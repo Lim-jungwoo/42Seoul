@@ -1,0 +1,102 @@
+.mapBlockBase {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.mapBlockCenter {
+    background-color: #333;
+    position: relative;
+    color: white;
+}
+
+.mapBlockScore {
+    display: flex;
+    justify-content: center;
+    font-size: 2.5rem;
+    opacity: .5;
+}
+
+.mapBlockScore>* {
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: 0 2vh;
+    margin: 1vh 0;
+}
+
+.mapBlockCrowd {
+    margin: 10px 10px 0 0;
+    text-align: right;
+}
+
+.mapBlockLeave {
+    background-color: transparent;
+    color: white;
+    border: 0;
+    margin: 0 0 0 80px;
+}
+
+
+.mapBlockScore>div:first-child {
+    text-align: right;
+    border-right: .5vh solid white;
+}
+
+.mapBlockScore>div:last-child {
+    display: flex;
+}
+
+.mapBlockScore>div:last-child>div {
+    flex-grow: 1;
+    font-size: 1rem;
+}
+
+.mapBlockBall {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.mapBlockBrick {
+    position: absolute;
+    background-color: #2962ff;
+}
+
+.mapBlockTrayPlayOne {
+    position: absolute;
+    background-color: white;
+}
+
+.mapBlockrayPlayTwo {
+    position: absolute;
+    background-color: white;
+}
+
+.mapBlockLodings {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(255, 255, 255, 0.3);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.mapBlockLodingsDiv {
+    font-size: 5rem;
+    opacity: .5;
+    color: #f5f5f5;
+    margin: 10px 0;
+}
+
+.mapBlockWinDiv {
+    font-size: 7rem;
+    color: #2962ff
+}
